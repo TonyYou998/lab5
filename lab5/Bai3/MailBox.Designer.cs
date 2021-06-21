@@ -222,7 +222,6 @@ namespace lab5.Bai5
             this.label5.Size = new System.Drawing.Size(70, 20);
             this.label5.TabIndex = 9;
             this.label5.Text = "Password";
-            this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
             // Passtxt
             // 

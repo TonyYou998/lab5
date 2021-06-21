@@ -62,6 +62,7 @@ namespace lab5
             this.username.Name = "username";
             this.username.Size = new System.Drawing.Size(249, 27);
             this.username.TabIndex = 2;
+            this.username.Text = "duy@nhom3.nt106";
             // 
             // password
             // 
@@ -69,6 +70,7 @@ namespace lab5
             this.password.Name = "password";
             this.password.Size = new System.Drawing.Size(249, 27);
             this.password.TabIndex = 3;
+            this.password.Text = "Nt106J21";
             // 
             // button1
             // 

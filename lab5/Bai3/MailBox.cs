@@ -96,9 +96,5 @@ namespace lab5.Bai5
             }
         }
 
-        private void label5_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }

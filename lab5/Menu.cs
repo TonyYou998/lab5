@@ -10,17 +10,17 @@ using System.Windows.Forms;
 
 namespace lab5
 {
-    public partial class Form1 : Form
+    public partial class Menu : Form
     {
-        public Form1()
+        public Menu()
         {
             InitializeComponent();
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void button3_Click(object sender, EventArgs e)// Bài 3
         {
-            Bai3 b3 = new Bai3();
-            b3.Show();
+            Login Gui = new Login();
+            Gui.Show();
         }
 
         private void button1_Click(object sender, EventArgs e)

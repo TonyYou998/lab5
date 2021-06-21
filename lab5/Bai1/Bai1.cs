@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MailKit.Net.Imap;
+using MailKit.Security;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -25,13 +27,29 @@ namespace lab5
             {
                 string mailfrom = textBox1.Text.ToString().Trim();
                 string mailto = textBox2.Text.ToString().Trim();
+                string password = textBox3.Text.ToString().Trim();
                 if (mailfrom == "" || mailto == "")
                 {
                     MessageBox.Show("from/to/password not allowed empty");
                     return;
                 }
+                using(var client=new ImapClient())
+                {
+                    client.CheckCertificateRevocation = false;
+                    client.Connect("127.0.0.1", 143, SecureSocketOptions.None);
+                    try
+                    {
+                        client.Authenticate(mailfrom, password);
+                        
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Sai mật khẩu");
+                        return;
+                    }
+                }
                    
-                string password = textBox3.Text.ToString().Trim();
+                
                 var basicCredential = new NetworkCredential(mailfrom, password);
                 using (MailMessage message = new MailMessage())
                 {

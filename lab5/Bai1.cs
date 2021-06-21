@@ -25,26 +25,41 @@ namespace lab5
             {
                 string mailfrom = textBox1.Text.ToString().Trim();
                 string mailto = textBox2.Text.ToString().Trim();
+                if (mailfrom == "" || mailto == "")
+                {
+                    MessageBox.Show("from/to/password not allowed empty");
+                    return;
+                }
+                   
                 string password = textBox3.Text.ToString().Trim();
                 var basicCredential = new NetworkCredential(mailfrom, password);
                 using (MailMessage message = new MailMessage())
                 {
-                    MailAddress fromAddress = new MailAddress(mailfrom);
-                    smtpClient.UseDefaultCredentials = false;
-                    smtpClient.Credentials = basicCredential;
-                    message.From = fromAddress;
-                    message.Subject = textBox4.Text.ToString().Trim();
+                    try
+                    {
+                        MailAddress fromAddress = new MailAddress(mailfrom);
+                        smtpClient.UseDefaultCredentials = false;
+                        smtpClient.Credentials = basicCredential;
+                        message.From = fromAddress;
+                        message.Subject = textBox4.Text.ToString().Trim();
+
+                        message.IsBodyHtml = true;
+                        message.Body = richTextBox1.Text.ToString();
+                        message.To.Add(mailto);
+                    }
+                    catch
+                    {
+                        MessageBox.Show("invalid email");
+                    }
                    
-                    message.IsBodyHtml = true;
-                    message.Body = richTextBox1.Text.ToString();
-                    message.To.Add(mailto);
                     try
                     {
                         smtpClient.Send(message);
+                        MessageBox.Show("message sent");
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(ex.ToString());
+                        MessageBox.Show("Message cannot be sent");
                     }
                 }
             }

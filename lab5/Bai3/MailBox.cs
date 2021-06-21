@@ -1,11 +1,12 @@
 ﻿using MailKit.Net.Imap;
 using MailKit.Security;
-using System.Linq;
+using MailKit;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using System.Net.Mail;
 using System.Net;
 using System;
+using System.Collections.Generic;
 
 namespace lab5.Bai5
 {
@@ -23,15 +24,19 @@ namespace lab5.Bai5
             GetMessageFromAccount();
         }
 
+        List<string> ListMessage = new List<string>();
+
         private void GetMessageFromAccount()
         {
             listView1.Items.Clear();
+            ListMessage.Clear();
             using (var client = new ImapClient())
             {
                 client.CheckCertificateRevocation = false;
                 client.Connect(IP, Port, SecureSocketOptions.None);
                 client.Authenticate(this.username, this.password);
                 var inbox = client.Inbox;
+                inbox.Open(FolderAccess.ReadOnly);
 
                 for (int i = 0; i < inbox.Count; i++)
                 {
@@ -44,6 +49,7 @@ namespace lab5.Bai5
                     ListViewItem.ListViewSubItem(name, message.Date.Date.ToString());
                     name.SubItems.Add(date);
                     listView1.Items.Add(name);
+                    ListMessage.Add(message.Body.ToString());
                 }
             }
         }
@@ -87,12 +93,17 @@ namespace lab5.Bai5
 
         private void listView1_SelectedIndexChanged(object sender, System.EventArgs e)
         {
-            string current = listView1.SelectedItems[0].SubItems[1].Text;
-            string pattern = "\".*?\"(.*?)";
-            if(Regex.IsMatch(current, pattern))
+            if(listView1.SelectedItems.Count > 0)
             {
-                string text = Regex.Match(current, pattern).Value;
-                msgcontent.Text = text;
+                int index = listView1.SelectedItems[0].Index;
+                //string pattern = "\".*?\"(.*?)";
+                //if (Regex.IsMatch(current, pattern))
+                //{
+                //    string text = Regex.Matches(current, pattern)[0].Groups[1].Value;
+                //    msgcontent.Text = text;
+                //}
+
+                msgcontent.Text = ListMessage[index];
             }
         }
 
